@@ -61,8 +61,6 @@ list of analyses in HH4b.cc
 
 ### Plotting results
 
-To plot the histograms output to the `/res/` directory, use the plotting.py module in `res`.
-Import with `from plotting import *`, then read the help for `plot1D` and `plot2D`.
-Plots are written to a `Plots` directory
+Read the `README.md` file in `res`.
 
 ************************************
