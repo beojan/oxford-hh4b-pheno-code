@@ -45,8 +45,12 @@ cd baseline_noPU_atlas_qcd
 ../mergeSubSamples.zsh SHERPA
 ~~~
 
-Unfortunately, `yoda-merge.cpp` doesn't currently build on PPLXINT. Either use the binary in
-the git repo, or build it with `gcc -o yoda-merge yoda-merge.cpp -O2 -lboost_program_options`
+The `mergeSubSamples.zsh` script is run from the `res` directory and given the samples directory
+as an argument (remember the `/` at the end). The `mergeBackground.zsh` script is run from the sample
+directory. 
+
+Unfortunately, `yoda-merge.cpp` doesn't currently build on PPLXINT (update: loading LCG 91 may help).
+Either use the binary in the git repo, or build it with `gcc -o yoda-merge yoda-merge.cpp -O2 -lboost_program_options`
 on an x86_64 (i.e. any recent) Linux system with a recent GCC and Boost. I've only tested with
 GCC 6.3 and Boost 1.63, but it *should* work with slightly older versions (likely GCC 5 and above,
 though adding `-std=gnu++14` may be advisable on versions older than 6.1).
@@ -59,6 +63,4 @@ functions to do all plotting in one script.
 
 Assuming the environment has been setup as described above (i.e. you are using the virtualenv), the
 shebang line for any Python script should be `#!/usr/bin/env python2`. Do *not* use `#!/usr/bin/python`
-as this will use the system Python interpreter. `# !/usr/bin/env python` (no 2) should suffice, but may
-cause problems if / when the naming scheme for Python interpreters switches to `python` calling Python
-3 by default.
+as this will use the system Python interpreter.
