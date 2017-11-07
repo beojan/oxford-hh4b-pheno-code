@@ -40,8 +40,8 @@ This builds the analysis code
 ```
 
 This submits batch jobs to run the analysis code for all the analyses specified in ./src/HH4b.cc.
-The code will output all results to /res/<analysis>/<sample>
-where <analysis> specified the name of the type of analysis, and <sample> refers to the source .lhe file.
+The code will output all results to `/res/<analysis>/<sample>`
+where `<analysis>` specifies the name of the type of analysis, and `<sample>` refers to the source .lhe file.
 Additionally the "total" "signal" and "background" samples are generated.
 
 Results are presented as YODA FLAT histograms for the histograms specified in the analysis.
@@ -52,7 +52,7 @@ a sample by sample basis.
 
 ### Writing analyses
 
-An example barebones analysis class can be found in /src/basic.cc and /inc/basic.h.
+An example barebones analysis class can be found in `/src/basic.cc` and `/inc/basic.h`.
 This may be expanded upon to make a new analysis. For use in the HH4b main code,
 the new analysis should be added as a module in the Makefile, and added to the
 list of analyses in HH4b.cc
