@@ -31,7 +31,7 @@ Compile the appropriate merging script (`mergeSubSamples.zsh` or `mergeBackgroun
 with `zcompile`, then run it from ZSH. If running on the batch system, ensure the
 submitted script uses ZSH: the shebang line should be
 `#!/usr/bin/env zsh`. An example script is below
-~~~zsh
+```zsh
 #!/usr/bin/env zsh
 #PBS -l cput=01:59:00
 #PBS -l walltime=01:59:00
@@ -43,7 +43,7 @@ cd $PBS_O_WORKDIR
 cd baseline_noPU_atlas_qcd
 ../mergeSubSamples.zsh diHiggs
 ../mergeSubSamples.zsh SHERPA
-~~~
+```
 
 The `mergeSubSamples.zsh` script is run from the `res` directory and given the samples directory
 as an argument (remember the `/` at the end). The `mergeBackground.zsh` script is run from the sample
@@ -66,11 +66,11 @@ shebang line for any Python script should be `#!/usr/bin/env python2`. Do *not* 
 as this will use the system Python interpreter.
 
 An example using `plot1D` is below:
-~~~python
+```python
 plot1D({'2b 2j': 'baseline_noPU_atlas_qcd/SHERPA_QCD2b2j/histo_pt_H0_res_RCO_4tag.dat',
-	    '4j': 'baseline_noPU_atlas_qcd/SHERPA_QCD4j/histo_pt_H0_res_RCO_4tag.dat'},
-	    xlabel=r'$p_{T}(h_{0})$ / GeV', title='4-tag All Regions', output='test.svg')
-~~~
+        '4j': 'baseline_noPU_atlas_qcd/SHERPA_QCD4j/histo_pt_H0_res_RCO_4tag.dat'},
+       xlabel=r'$p_{T}(h_{0})$ / GeV', title='4-tag All Regions', output='test.svg')
+```
 
 This creates the plot below
 
