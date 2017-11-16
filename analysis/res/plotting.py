@@ -21,7 +21,7 @@ __all__ = ["plot1D", "plot2D"]
 plt.switch_backend("PDF")
 
 
-def plot1D(histograms, xlabel='Observable bin', title='', output=''):
+def plot1D(histograms, xlabel='Observable bin', title='', normalize=False, output=''):
     """Plot 1D histograms
 
     Arguments:
@@ -29,6 +29,7 @@ def plot1D(histograms, xlabel='Observable bin', title='', output=''):
                   values being histogram data filenames
     xlabel -- X axis label
     title  -- Plot title
+    normalize -- Should histograms be normalized to unit *area*
     output -- Output filename (file will be saved under `plots` directory)
     """
     col_cycle = cycle(['C0', 'C1', 'C2', 'C3'])
@@ -36,22 +37,28 @@ def plot1D(histograms, xlabel='Observable bin', title='', output=''):
     ax = plt.gca()
     ax.set_xlabel(xlabel)
     ax.set_title(title)
-    ax.set_ylabel("Arbitrary units")
+    ax.set_ylabel(if normalize then "Normalized Cross-section" else "Cross-section / $fb^{-1}$")
     for (label, filename), color in zip(histograms.items(), col_cycle):
         # Only read out errminus, because the two errors are the same anyway
         xlow, xhigh, val, err, _ = np.loadtxt(
             filename, skiprows=4, unpack=True)
+        # Reverse bin width scaling in flat file creation
+        bin_widths = xhigh - xlow
+        val *= bin_widths
+        err *= bin_widths
         errLow = val - err
         errHigh = val + err
-        # normalization
-        normalization = ne.evaluate("sum(val / (xhigh - xlow))")
         x = np.stack((xlow, xhigh)).ravel(1)  # interleaves xlow and xhigh
         y = np.stack((val, val)).ravel(1)  # doubles up val
-        y /= normalization
         yerrLow = np.stack((errLow, errLow)).ravel(1)
         yerrHigh = np.stack((errHigh, errHigh)).ravel(1)
-        yerrLow /= normalization
-        yerrHigh /= normalization
+
+        # normalization
+        if normalize:
+            normalization = np.sum(val)
+            y /= normalization
+            yerrLow /= normalization
+            yerrHigh /= normalization
 
         ax.fill_between(x, yerrLow, yerrHigh, color=color, alpha=0.5)
         ax.plot(x, y, label=label, color=color)
@@ -65,7 +72,7 @@ def plot1D(histograms, xlabel='Observable bin', title='', output=''):
     plt.close(fig)
 
 
-def plot2D(title, filename, xlabel, ylabel, output):
+def plot2D(title, filename, xlabel, ylabel, normalize=False, output=''):
     """Plot a 2D histogram
 
     Arguments:
@@ -73,12 +80,17 @@ def plot2D(title, filename, xlabel, ylabel, output):
     filename -- Histogram data filename
     xlabel -- X axis label
     ylabel -- Y axis label
+    normalize -- If True, normalize to unit volume
     output -- Output filename (file will be saved under `plots` directory)
     """
     fig = plt.figure(figsize=(8, 8))
     ax = plt.gca()
     xlow, xhigh, ylow, yhigh, val, _, _ = np.loadtxt(
         filename, skiprows=4, unpack=True)
+    # Reverse normalization in flat file creation
+    bin_area = (xhigh - xlow) * (yhigh - ylow)
+    val *= bin_area
+
     length = xlow.size
     xlowNew = np.unique(xlow)
     xhighNew = np.unique(xhigh)
@@ -95,6 +107,8 @@ def plot2D(title, filename, xlabel, ylabel, output):
 
     x = ne.evaluate("xlowNew + (xhighNew - xlowNew) / 2")
     y = ne.evaluate("ylowNew + (yhighNew - ylowNew) / 2")
+    if normalize:
+        val /= np.sum(val)
     z = val.reshape((xlength, ylength)).T
     sns.heatmap(
         z, xticklabels=x, yticklabels=y, ax=ax, square=True, linewidths=0.5)
