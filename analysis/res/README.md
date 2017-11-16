@@ -64,3 +64,16 @@ functions to do all plotting in one script.
 Assuming the environment has been setup as described above (i.e. you are using the virtualenv), the
 shebang line for any Python script should be `#!/usr/bin/env python2`. Do *not* use `#!/usr/bin/python`
 as this will use the system Python interpreter.
+
+An example using `plot1D` is below:
+~~~python
+plot1D({'2b 2j': 'baseline_noPU_atlas_qcd/SHERPA_QCD2b2j/histo_pt_H0_res_RCO_4tag.dat',
+	    '4j': 'baseline_noPU_atlas_qcd/SHERPA_QCD4j/histo_pt_H0_res_RCO_4tag.dat'},
+	    xlabel=r'$p_{T}(h_{0})$ / GeV', title='4-tag All Regions', output='test.svg')
+~~~
+
+This creates the plot below
+
+![Example plot](plots/test.svg)
+
+
