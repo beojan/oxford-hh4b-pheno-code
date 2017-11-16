@@ -1,4 +1,5 @@
 #SOURCE THIS BEFORE RUNNING PHENO CODE
+source /etc/profile.d/modules.sh
 export PYTHONPATH=/data/atlas/atlasdata2/DiHiggsSharedSoftware/YODA/lib/python2.7/site-packages:$PYTHONPATH
 export PATH=/afs/cern.ch/sw/lcg/external/Boost/1.48.0_python2.7/x86_64-slc6-gcc46-opt//include/boost-1_48:$PATH
 
