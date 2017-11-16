@@ -37,7 +37,7 @@ def plot1D(histograms, xlabel='Observable bin', title='', normalize=False, outpu
     ax = plt.gca()
     ax.set_xlabel(xlabel)
     ax.set_title(title)
-    ax.set_ylabel(if normalize then "Normalized Cross-section" else "Cross-section / $fb^{-1}$")
+    ax.set_ylabel("Normalized Cross-section" if normalize else "Cross-section / $fb^{-1}$")
     for (label, filename), color in zip(histograms.items(), col_cycle):
         # Only read out errminus, because the two errors are the same anyway
         xlow, xhigh, val, err, _ = np.loadtxt(
