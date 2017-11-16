@@ -16,7 +16,7 @@ git clone https://github.com/beojan/oxford-hh4b-pheno-code.git
 ```
 cd oxford-hh4b-pheno-code
 
-source setupEnv.sh
+source ./setupEnv.sh
 ```
 ************************************
 
