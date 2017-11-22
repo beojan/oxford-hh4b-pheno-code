@@ -3,7 +3,7 @@ README
 
 ### Merging
 
-Merging of the produced histogram.yoda files and the ntuple.dat files into histogram.dat files and merged ntuple.dat files is performed on the batch system using the merge.job script. The default is to merge files in directory `res/baseline_noPU_atlas_qcd`, however, the script can be used to merge files in other output directories by changing all instances of `baseline_noPU_atlas_qcd` in the script to the desired directory name. Note that the shebang line in the script is `#!/usr/bin/env zsh` as the `merge.job` script calls the `mergeSubSamples.zsh` script. The `mergeSubSamples.zsh` script utilises yoda-merge (this is pre-compiled, however, if you need to re-compile it please see the details in the CHANGELOG). To run the script on the batch use the following command:
+Merging of the produced histogram.yoda files and the ntuple.dat files into histogram.dat files and merged ntuple.dat files is performed on the batch system using the merge.job script. The default is to merge files in directory `res/baseline_noPU_atlas_qcd`, however, the script can be used to merge files in other output directories by changing all instances of `baseline_noPU_atlas_qcd` in the script to the desired directory name (e.g. `baseline_noPU_oxford`). Note that the shebang line in the script is `#!/usr/bin/env zsh` as the `merge.job` script calls the `mergeSubSamples.zsh` script. The `mergeSubSamples.zsh` script utilises yoda-merge (this is pre-compiled, however, if you need to re-compile it please see the details in the CHANGELOG). To run the script on the batch use the following command:
 
 ```
 qsub merge.job
