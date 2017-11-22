@@ -54,9 +54,9 @@ with outputs stored in the `plots` directory. Note that the `makeplots_matchpape
 ![Example plot](plots/baseline_noPU_atlas_qcd_test.pdf)
 
 
-`baseline_noPU_oxford.pdf` (note normalize has been set to True for this histogram, so the bin content is divided by the histogram integral)
+`baseline_noPU_oxford_test.pdf` (note normalize has been set to True for this histogram, so the bin content is divided by the histogram integral)
 
-![Example plot](plots/baseline_noPU_oxford.pdf)
+![Example plot](plots/baseline_noPU_oxford_test.pdf)
 
 
 
