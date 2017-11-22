@@ -6,4 +6,3 @@ CLONEDIR=$PBS_O_WORKDIR/../..
 . $CLONEDIR/setupEnv.sh
 tar -cJf baseline_noPU_atlas_qcd.tar.xz baseline_noPU_atlas_qcd
 ./mergeSubSamples.zsh baseline_noPU_atlas_qcd/
-echo "Merging subsamples complete" | mail -s "Subsample merging complete" beojan.stanislaus@physics.ox.ac.uk
