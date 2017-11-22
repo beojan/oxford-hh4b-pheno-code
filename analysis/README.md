@@ -42,11 +42,22 @@ This builds the analysis code
 This submits batch jobs to run the analysis code for all the analyses specified in ./src/HH4b.cc.
 The code will output all results to `/res/<analysis>/<sample>`
 where `<analysis>` specifies the name of the type of analysis, and `<sample>` refers to the source .lhe file.
-Additionally the "total" "signal" and "background" samples are generated.
 
 Results are presented as YODA FLAT histograms for the histograms specified in the analysis.
 Additionally the kinematics for input to the MVA are outputed to an "ntuple.dat" file, on
 a sample by sample basis.
+
+Note that by default the `OxfordAnalysis` is run (i.e. the code in `src/oxford.cc is used) and `OxfordAtlasQcdAnalysis` is run (i.e. the code in `src/oxford_atlas_qcd.cc` is used). This is specified in `src/run.cc` by the following lines:
+
+```
+analyses.push_back(new OxfordAnalysis(run, sample, subsample));
+
+analyses.push_back(new OxfordAtlasQcdAnalysis(run, sample, subsample, 2));
+analyses.push_back(new OxfordAtlasQcdAnalysis(run, sample, subsample, 3));
+analyses.push_back(new OxfordAtlasQcdAnalysis(run, sample, subsample, 4));
+
+```
+Where the numbers 2, 3, 4 correspond to the number of b-tags. The `OxfordAnalysis` algorithm produces the outputs used to make previous paper plots, including the inputs to the mva code. The `OxfordAtlasQCDAnalysis` algorithm produces the outputs needed by the background estimation. Users can comment out either of these algorithms if the results from them are not needed for their particular study, but remember to `make` the code after making the changes.
 
 ************************************
 
@@ -59,8 +70,9 @@ list of analyses in HH4b.cc
 
 ************************************
 
-### Plotting results
+### Merging and plotting results
 
 Read the `README.md` file in `res`.
 
 ************************************
+
