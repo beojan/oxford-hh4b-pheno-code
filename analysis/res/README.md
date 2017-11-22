@@ -1,79 +1,63 @@
-Merging (and Plotting) README
+README
 ==============
 
-Key Changes
------------
-
 ### Merging
-- `yodamerge` rewritten in C++ to avoid needing to load Python and `yoda` module
-- New `yoda-merge` also writes out a flat file, removing need to run `yoda2flat`
-- Merging scripts ported to ZSH. Compiling with `zcompile` speeds these up
-- In total, merging is sped up by a factor of 4 to 6
 
-### Plotting
-- New `plotting` Python modules has been added providing two functions:
-  - `plot1D` for plotting (multiple) 1D histograms, normalized by area.
-  - `plot2D` for plotting a single 2D histogram
+Merging of the produced histogram.yoda files and the ntuple.dat files into histogram.dat files and merged ntuple.dat files is performed on the batch system using the merge.job script. The default is to merge files in directory `res/baseline_noPU_atlas_qcd`, however, the script can be used to merge files in other output directories by changing all instances of `baseline_noPU_atlas_qcd` in the script to the desired directory name. Note that the shebang line in the script is `#!/usr/bin/env zsh` as the `merge.job` script calls the `mergeSubSamples.zsh` script. The `mergeSubSamples.zsh` script utilises yoda-merge (this is pre-compiled, however, if you need to re-compile it please see the details in the CHANGELOG). To run the script on the batch use the following command:
 
-Usage
-------------
-
-### Environment Setup
-The code requires some environment setup. Much of the Python related setup has
-been moved into a virtualenv using Python 2.7.13 built with GCC 4.9.3, and with
-Numpy, Matplotlib, and Seaborn (needed for the plotting module) installed.
-
-All environment setup can be done on the PPLXINT machines by sourcing
-`/home/stanislaus/PUBLIC/setupEnv.sh` (this file is world readable).
-
-### Merging
-Compile the appropriate merging script (`mergeSubSamples.zsh` or `mergeBackground.zsh`)
-with `zcompile`, then run it from ZSH. If running on the batch system, ensure the
-submitted script uses ZSH: the shebang line should be
-`#!/usr/bin/env zsh`. An example script is below
-```zsh
-#!/usr/bin/env zsh
-#PBS -l cput=01:59:00
-#PBS -l walltime=01:59:00
-#PBS -o /home/stanislaus/oxfordhh4b/analysis/batchlog/
-#PBS -e /home/stanislaus/oxfordhh4b/analysis/batchlog/
-cd $PBS_O_WORKDIR
-. /home/stanislaus/PUBLIC/setupEnv.sh
-#tar -cJf baseline_noPU_atlas_qcd.tar.xz baseline_noPU_atlas_qcd
-cd baseline_noPU_atlas_qcd
-../mergeSubSamples.zsh diHiggs
-../mergeSubSamples.zsh SHERPA
+```
+qsub merge.job
 ```
 
-The `mergeSubSamples.zsh` script is run from the `res` directory and given the samples directory
-as an argument (remember the `/` at the end). The `mergeBackground.zsh` script is run from the sample
-directory. 
+Following this, the mergeBackground.zsh script is run from the output directory (e.g. `baseline_noPU_atlas_qcd`) to combine all histograms and ntuples in the SHERPA_QCD2b2j, SHERPA_QCD4b and SHERPA_QCD4j directories into combined background histograms and ntuples in a new `background` directory (e.g. `baseline_noPU_atlas_qcd/background`). In order to run this script do the following:
 
-Unfortunately, `yoda-merge.cpp` doesn't currently build on PPLXINT (update: loading LCG 91 may help).
-Either use the binary in the git repo, or build it with `gcc -o yoda-merge yoda-merge.cpp -O2 -lboost_program_options`
-on an x86_64 (i.e. any recent) Linux system with a recent GCC and Boost. I've only tested with
-GCC 6.3 and Boost 1.63, but it *should* work with slightly older versions (likely GCC 5 and above,
-though adding `-std=gnu++14` may be advisable on versions older than 6.1).
+```
+cd baseline_noPU_atlas_qcd 
+```
+or directory name of your choosing. 
 
-### Plotting
-The main factor causing plotting to be slow was the time taken to load Python, and the Numpy and
-Matplotlib modules. This can be mitigated by doing all plotting in one Python script. The `plotting`
-module helps with this. Import it with `from plotting import *`, then use the `plot1D` and `plot2D`
-functions to do all plotting in one script.
-
-Assuming the environment has been setup as described above (i.e. you are using the virtualenv), the
-shebang line for any Python script should be `#!/usr/bin/env python2`. Do *not* use `#!/usr/bin/python`
-as this will use the system Python interpreter.
-
-An example using `plot1D` is below:
-```python
-plot1D({'2b 2j': 'baseline_noPU_atlas_qcd/SHERPA_QCD2b2j/histo_pt_H0_res_RCO_4tag.dat',
-        '4j': 'baseline_noPU_atlas_qcd/SHERPA_QCD4j/histo_pt_H0_res_RCO_4tag.dat'},
-       xlabel=r'$p_{T}(h_{0})$ / GeV', title='4-tag All Regions', output='test.svg')
+```
+../mergeBackground.zsh
 ```
 
-This creates the plot below
+If running the `oxford_atlas_qcd` algorithm (e.g. for background estimation studies) an additional merging step is required in order to merge the produced `fullNTuple` dat files, executed as follows:
 
-![Example plot](plots/test.svg)
+```
+cd baseline_noPU_atlas_qcd 
+```
+
+```
+../mergeFullNTuple.zsh
+```
+
+Note that to speed up merging you can compile the appropriate merging script (`mergeSubSamples.zsh`, `mergeBackground.zsh`  or `mergeFullNTuple.zsh`) by opening a Z shell via `zsh`, compiling with `zcompile mergeSubSamples.zsh` for example, then executing the script as described above.
+
+### Plotting
+
+First make a directory to store your output plots:
+
+```
+mkdir plots
+```
+
+There are two plotting modules `plotting` and `plotting_matchpaper` which can be imported via `from plotting import *` or `from plotting_matchpaper import *`. Each contains `plot1D` and `plot2D`
+functions which can be used. `plotting_matchpaper` is the same as `plotting` except that bin content is not multiplied by bin width, producing plots which match the previous paper. An example of using the functions in `plotting_matchpaper` is given in `makeplots_matchpaper.py`. Note that assuming the environment has been setup as described previously (i.e. you are using the virtualenv), the shebang line for the `plotting_matchpaper` script should be `#!/usr/bin/env python2`. Do *not* use `#!/usr/bin/python` as this will use the system Python interpreter. The `makeplots_matchpaper` script can be run as follows:
+
+```
+python makeplots_matchpaper.py
+```
+
+with outputs stored in the `plots` directory. Note that the `makeplots_matchpaper` is currently set up to produce one plot from histogram.dat files created using the `oxford_atlas_qcd` algorithm stored in `baseline_noPU_atlas_qcd`, and one plot from histogram.dat files created using the `oxford` algorithm stored in `baseline_noPU_oxford`. The two example 1D plots which are created are shown below:
+
+`baseline_noPU_atlas_qcd_test.pdf`
+
+![Example plot](plots/baseline_noPU_atlas_qcd_test.pdf)
+
+
+`baseline_noPU_oxford.pdf` (note normalize has been set to True for this histogram, so the bin content is divided by the histogram integral)
+
+![Example plot](plots/baseline_noPU_oxford.pdf)
+
+
 
 
