@@ -34,12 +34,6 @@ Note that to speed up merging you can compile the appropriate merging script (`m
 
 ### Plotting
 
-First make a directory to store your output plots:
-
-```
-mkdir plots
-```
-
 There are two plotting modules `plotting` and `plotting_matchpaper` which can be imported via `from plotting import *` or `from plotting_matchpaper import *`. Each contains `plot1D` and `plot2D`
 functions which can be used. `plotting_matchpaper` is the same as `plotting` except that bin content is not multiplied by bin width, producing plots which match the previous paper. An example of using the functions in `plotting_matchpaper` is given in `makeplots_matchpaper.py`. Note that assuming the environment has been setup as described previously (i.e. you are using the virtualenv), the shebang line for the `plotting_matchpaper` script should be `#!/usr/bin/env python2`. Do *not* use `#!/usr/bin/python` as this will use the system Python interpreter. The `makeplots_matchpaper` script can be run as follows:
 
