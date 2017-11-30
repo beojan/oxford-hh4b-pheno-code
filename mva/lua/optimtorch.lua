@@ -14,7 +14,6 @@ torch.manualSeed(0)
 math.randomseed(0)
 
 --Preprocessing
-data.whiten(totalset)
 data.aliastable(totalset)
 
 -- Definition of nKin-10-1 neural network with sigmoidal activation
