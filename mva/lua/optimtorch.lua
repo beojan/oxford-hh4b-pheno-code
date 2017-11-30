@@ -6,7 +6,7 @@ require('optim')
 local targetfile = arg[1]
 
 print("Reading data ".. targetfile)
-local totalset = data.readfile(targetfile, 0.1)
+local totalset = data.readfile(targetfile, 0.5) 
 print(collectgarbage("count")/1024, "MB used")
 
 -- Setting seeds
@@ -17,13 +17,15 @@ math.randomseed(0)
 data.whiten(totalset)
 data.aliastable(totalset)
 
+-- Definition of nKin-10-1 neural network with sigmoidal activation
 mlp = nn.Sequential()
-mlp:add( nn.Linear(totalset.nKin, 10) ) -- 22 input, 5 hidden units
+mlp:add( nn.Linear(totalset.nKin, 10) )
 mlp:add( nn.Sigmoid() )
 mlp:add( nn.Linear(10, 1) ) 
 mlp:add( nn.Sigmoid() ) 
-
 local params, gradParams = mlp:getParameters()
+
+-- Cross-entropy error
 local criterion = nn.BCECriterion()
 
 local optimState = {
@@ -34,16 +36,15 @@ local optimState = {
    }
 
 local sampleSize, batchSize = 1E4,10
-local ne = 200*batchSize
+local ne = 200
 
 for epoch = 1,ne,1 do
 	local sampleLabels, sampleInputs = data.batch(totalset,sampleSize)
 	for ibatch=1,sampleSize/batchSize do
 
+        -- MLP parameters
 		local start = batchSize*(ibatch-1) + 1
 		local stop  = start + (batchSize - 1)
-
-		-- print(start, stop, batchSize, sampleSize, #sampleLabels)
 
 		local batchLabels = sampleLabels:sub(start,stop)
 		local batchInputs = sampleInputs:sub(start,stop)

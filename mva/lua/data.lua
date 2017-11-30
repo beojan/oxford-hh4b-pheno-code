@@ -6,7 +6,7 @@ local data = {}
 local thispath = select('1', ...):match(".+%.") or ""
 
 local utils = require('pl.utils')
-require('unsup')
+--require('unsup')
 
 -- A (not particuarly efficient) function to count the number of lines in a file
 local function countLines(targetfile)
@@ -29,6 +29,7 @@ end
 --  set.signorm:	the overall normalisation for signal events in the training cost
 --  set.bkgnorm:    the overall normalisation for background events in the training cost
 function data.readfile(targetfile, sigfr)
+    assert(sigfr < 1 and sigfr > 0 , "Signal Fraction must be a fraction: " ..tostring(sigfr))
 	local set = {}
 
 	local nData = countLines(targetfile) - 1
@@ -70,6 +71,8 @@ function data.readfile(targetfile, sigfr)
 	end
 
 	set.nDat = set.nSig + set.nBkg
+    assert(set.nSig > 0, "zero number of signal points")
+    assert(set.nBkg > 0, "zero number of background points")
 
 	print(sigwgt .. " signal weight")
 	print(bkgwgt .. " background weight")
@@ -79,13 +82,6 @@ function data.readfile(targetfile, sigfr)
 
 	io.close(file)
 	return set
-end
-
--- Decorrelate the kinematical variables in the dataset by ZCA-whitening
--- This is a helper function which you can use to try and simplify NN training
-function data.whiten(set)
-	print("Whitening data")
-	set.dataInputs = unsup.zca_whiten(set.dataInputs)
 end
 
 -- This function computes the alias table for Walker's alias method.
@@ -129,9 +125,9 @@ function data.aliastable(set)
 	end
 
 	-- Handle remaining bin
-	assert(#overfull + #underfull == 1)
+	assert(#overfull + #underfull <= 1, "Problem with Walker alias tables. Check the input event weights.")
 	if #underfull > 0 then	U[underfull[1]] = 1 end
-	if #overfull > 0 then	U[overfull[1]] = 1 end
+	if #overfull > 0  then	U[overfull[1]] = 1 end
 
 	set.U = U
 	set.K = K

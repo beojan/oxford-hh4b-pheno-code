@@ -5,9 +5,10 @@ local gnuplot = require('gnuplot')
 local targetfile = arg[1]
 
 print("Reading data ".. targetfile)
-local totalset = data.readfile(targetfile, 0.1)
+local totalset = data.readfile(targetfile, 0.5)
 print(collectgarbage("count")/1024, "MB used")
-data.whiten(totalset)
+
+-- Form alias table for generating batches
 data.aliastable(totalset)
 
 -- Generate dataset in torch trainer format
@@ -15,7 +16,7 @@ local torchset = data.torch(totalset,1E4)
 
 -- Specify neural network architecture
 mlp = nn.Sequential()
-mlp:add( nn.Linear(totalset.nKin, 10) ) -- 22 input, 10 hidden units
+mlp:add( nn.Linear(totalset.nKin, 10) )
 mlp:add( nn.Sigmoid() )
 mlp:add( nn.Linear(10, 1) ) 
 mlp:add( nn.Sigmoid() ) 
@@ -34,9 +35,8 @@ for i=1,totalset.nDat,1 do
 	io.write(totalset.dataSource[i],' ', totalset.dataOutput[i],' ', totalset.dataWeight[i],' ', mlp:forward(totalset.dataInputs[i])[1],'\n')
 end
 
-
 -------------------------------------------------------------------------------------------------------
--- Compute Signal/Background plots
+-- Compute Signal/Background plots - as an example more than anything
 
 local lumi = 3000 -- HL-LHC luminosity
 
