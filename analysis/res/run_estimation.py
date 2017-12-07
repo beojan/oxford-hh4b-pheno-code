@@ -25,17 +25,17 @@ variables = {'m_HH': '$m_{hh}$', 'pt_H0': '$p_T(h_0)$', 'pt_H1': '$p_T(h_1)$'}
 
 print("Reading samples...")
 ntuple2t = {
-    sample: pd.read_csv(f"ntuple/{sample}-fullNTuple-2-tag.dat")
+    sample: pd.read_csv(f"baseline_noPU_atlas_qcd/ntuple/{sample}-fullNTuple-2-tag.dat")
     for sample in samples
 }
 print("2 tag read")
 ntuple3t = {
-    sample: pd.read_csv(f"ntuple/{sample}-fullNTuple-3-tag.dat")
+    sample: pd.read_csv(f"baseline_noPU_atlas_qcd/ntuple/{sample}-fullNTuple-3-tag.dat")
     for sample in samples
 }
 print("3 tag read")
 ntuple4t = {
-    sample: pd.read_csv(f"ntuple/{sample}-fullNTuple-4-tag.dat")
+    sample: pd.read_csv(f"baseline_noPU_atlas_qcd/ntuple/{sample}-fullNTuple-4-tag.dat")
     for sample in samples
 }
 print("4 tag read")
