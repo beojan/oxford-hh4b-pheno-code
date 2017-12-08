@@ -8,6 +8,7 @@ from uncertainties import unumpy as unp
 from uncertainties import ufloat
 import matplotlib as mpl
 mpl.use('Agg')
+import atlas_mpl_style as ampl
 import matplotlib.pyplot as plt  # noqa
 import pandas as pd  # noqa
 import seaborn  # noqa
@@ -40,7 +41,7 @@ ntuple4t = {
 }
 print("4 tag read")
 
-plt.style.use('ggplot-paper')
+plt.style.use('paper')
 seaborn.set_palette('deep')
 plt.ioff()
 
