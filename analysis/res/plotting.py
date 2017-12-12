@@ -110,8 +110,9 @@ def plot2D(title, filename, xlabel, ylabel, normalize=False, output=''):
     if normalize:
         val /= np.sum(val)
     z = val.reshape((xlength, ylength)).T
-    sns.heatmap(
+    sn_ax = sns.heatmap(
         z, xticklabels=x, yticklabels=y, ax=ax, square=True, linewidths=0.5)
+    sn_ax.invert_yaxis()
     plt.xticks(rotation=90)
     plt.yticks(rotation=0)
     ax.set_xlabel(xlabel)

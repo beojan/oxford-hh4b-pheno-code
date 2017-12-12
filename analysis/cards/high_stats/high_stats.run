@@ -1,6 +1,6 @@
-runname=baseline_noPU
+runname=high_stats
 sub_samplesize=1E6
-npileup=0
+npileup=80
 jetEsmear=5
 pythiaShower=1
 runseed=32874627
