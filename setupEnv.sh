@@ -8,6 +8,7 @@ export PATH=/data/atlas/atlasdata2/DiHiggsSharedSoftware/SHERPA/bin:$PATH
 export PATH=/data/atlas/atlasdata2/DiHiggsSharedSoftware/Pythia/pythia8201/bin:$PATH
 export PATH=/data/atlas/atlasdata2/DiHiggsSharedSoftware/YODA/YODA-1.5.0/bin/:$PATH
 export PATH=/data/atlas/atlasdata2/DiHiggsSharedSoftware/FastJet/fastjet-install/bin:$PATH
+export PATH=/data/atlas/atlasdata2/DiHiggsSharedSoftware/DiHiggsSharedSoftware/MadGraph-2.6.0/MG5_aMC_v2_6_0/bin:$PATH
 export LD_LIBRARY_PATH=/data/atlas/atlasdata2/DiHiggsSharedSoftware/YODA/lib:$LD_LIBRARY_PATH
 export LD_LIBRARY_PATH=/data/atlas/atlasdata2/DiHiggsSharedSoftware/Pythia/pythia8201/lib:$LD_LIBRARY_PATH
 export LD_LIBRARY_PATH=/afs/cern.ch/sw/lcg/external/HepMC/2.06.08/x86_64-slc6-gcc47-opt/lib:$LD_LIBRARY_PATH
