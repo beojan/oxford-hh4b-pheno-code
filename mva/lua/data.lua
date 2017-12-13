@@ -6,7 +6,7 @@ local data = {}
 local thispath = select('1', ...):match(".+%.") or ""
 
 local utils = require('pl.utils')
---require('unsup')
+local unsup = require('unsup_fragment')
 
 -- A (not particuarly efficient) function to count the number of lines in a file
 local function countLines(targetfile)
@@ -69,6 +69,9 @@ function data.readfile(targetfile, sigfr)
 			bkgwgt = bkgwgt + set.dataWeight[i]
 		end
 	end
+
+    -- Whiten data
+    set.dataInputs = unsup.zca_whiten(set.dataInputs)
 
 	set.nDat = set.nSig + set.nBkg
     assert(set.nSig > 0, "zero number of signal points")
