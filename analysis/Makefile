@@ -49,7 +49,8 @@ FASTJETCFLAGS = $(shell fastjet-config --cxxflags)
 
 # fastjet-contrib
 # FJCONTRIB = -L /usr/local/Cellar/fjcontrib/1.018/lib/ -lVariableR -lEnergyCorrelator -lNsubjettiness
-FJCONTRIB = -L /data/atlas/atlasdata2/DiHiggsSharedSoftware/FastJet/fjcontrib-install/lib/ -lVariableR -lEnergyCorrelator -lNsubjettiness
+#FJCONTRIB = -L /data/atlas/atlasdata2/DiHiggsSharedSoftware/FastJet/fjcontrib-install/lib/ -lVariableR -lEnergyCorrelator -lNsubjettiness
+FJCONTRIB = -L /data/atlas/atlasdata2/DiHiggsSharedSoftware/FastJet/fastjet-install/lib/ -lVariableR -lEnergyCorrelator -lNsubjettiness
 
 # Pythia 8 
 PYTHIALIBS = $(shell pythia8-config --libs) -ldl

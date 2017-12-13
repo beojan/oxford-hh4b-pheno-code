@@ -1,0 +1,10 @@
+<<<<<<< HEAD:analysis/cards/high_stats/baseline_noPU.run
+runname=baseline_noPU
+=======
+runname=high_stats_noPU
+>>>>>>> 2eee2352f8897770f5858840ebdb81ddf1a39673:analysis/cards/high_stats/high_stats_noPU.run
+sub_samplesize=1E6
+npileup=0
+jetEsmear=5
+pythiaShower=1
+runseed=32874627

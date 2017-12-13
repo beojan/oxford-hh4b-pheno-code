@@ -16,13 +16,13 @@ echogreen () {
 
 alias yoda-merge=`pwd`/../yoda-merge
 
-numhists=$(ls -1 diHiggs/histo_*.yoda | wc -l)
+numhists=$(ls -1 SHERPA_QCD4b/histo_*.yoda | wc -l)
 
 for dir in SHERPA*; do
     num=$(ls -1 $dir/histo_*.yoda | wc -l)
     if (($num != $numhists)); then
         echored "Directories don't contain the same number of histograms"
-	echored "diHiggs has $numhists, $dir has $num"
+	echored "SHERPA_QCD4b has $numhists, $dir has $num"
 	if (( $num < $numhists )); then
             exit 1
         else
@@ -34,7 +34,7 @@ done
 rm -rf background
 mkdir background
 
-for file in diHiggs/histo_*.yoda(:t:r); do
+for file in SHERPA_QCD4b/histo_*.yoda(:t:r); do
     echogreen "Merging $file.yoda"
     yoda-merge -o background/$file.yoda -f background/$file.dat SHERPA*/$file.yoda || echored "FAILED TO PROCESS $file.yoda"
 done
