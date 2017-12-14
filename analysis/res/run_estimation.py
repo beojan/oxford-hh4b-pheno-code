@@ -6,9 +6,9 @@ import scipy.stats as stats
 import uncertainties as u
 from uncertainties import unumpy as unp
 from uncertainties import ufloat
+from sys import argv
 import matplotlib as mpl
 mpl.use('Agg')
-import atlas_mpl_style as ampl
 import matplotlib.pyplot as plt  # noqa
 import pandas as pd  # noqa
 import seaborn  # noqa
@@ -18,6 +18,7 @@ samples = ['2b2j', '4b', '4j']
 channels = ['res']  # , 'inter', 'boost']
 n_tags = [2, 3]
 n_bins = 30
+res_dir = argv[1]
 
 sigSel = 'region == "SIG"'
 sdba_sel = 'region == "SDBA"'
@@ -26,22 +27,22 @@ variables = {'m_HH': '$m_{hh}$', 'pt_H0': '$p_T(h_0)$', 'pt_H1': '$p_T(h_1)$'}
 
 print("Reading samples...")
 ntuple2t = {
-    sample: pd.read_csv(f"baseline_noPU_atlas_qcd/ntuple/{sample}-fullNTuple-2-tag.dat")
+    sample: pd.read_csv(f"{res_dir}/ntuple/{sample}-fullNTuple-2-tag.dat")
     for sample in samples
 }
 print("2 tag read")
 ntuple3t = {
-    sample: pd.read_csv(f"baseline_noPU_atlas_qcd/ntuple/{sample}-fullNTuple-3-tag.dat")
+    sample: pd.read_csv(f"{res_dir}/ntuple/{sample}-fullNTuple-3-tag.dat")
     for sample in samples
 }
 print("3 tag read")
 ntuple4t = {
-    sample: pd.read_csv(f"baseline_noPU_atlas_qcd/ntuple/{sample}-fullNTuple-4-tag.dat")
+    sample: pd.read_csv(f"{res_dir}/ntuple/{sample}-fullNTuple-4-tag.dat")
     for sample in samples
 }
 print("4 tag read")
 
-plt.style.use('paper')
+plt.style.use('ggplot-paper')
 seaborn.set_palette('deep')
 plt.ioff()
 
