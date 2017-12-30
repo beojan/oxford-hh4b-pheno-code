@@ -57,7 +57,8 @@ def weighted_chisquare(f_obs, f_exp):
     W1 = np.sum(w1)  # noqa
     W2 = np.sum(w2)  # noqa
     X2 = ne.evaluate(
-        "sum((W1*w2 - W2*w1)**2 / (W1**2 * s2**2 + W2**2 * s1**2))")
+        "(W1*w2 - W2*w1)**2 / (W1**2 * s2**2 + W2**2 * s1**2)")
+    X2 = np.sum(X2)
     p = stats.chi2.sf(X2, np.size(w1) - 1)
     return (X2, p)
 
