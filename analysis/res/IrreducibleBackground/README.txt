@@ -1,4 +1,6 @@
-README:
+The current samples being used are saved in a MATLAB Data file as: 
+"sampleHighStats.mat"
+And are not sorted by channel yet (done within the script)README:
 
 The irreducible background estimation is done channel by channel in the following scripts:
 BoostedEstimation
