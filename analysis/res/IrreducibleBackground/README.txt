@@ -16,6 +16,8 @@ ResolvedLikelihood
 
 And currently should be run after the appropriate estimation script. As new samples are used the start points would need to be changed, as would potentially the number of bins or fit function choices. 
 
+Inputs are at `/eos/user/b/bstanisl/HH4b\ Pheno/Zach\ MPhys\ Input\ Files`
+
 (The following scrips are just used as functions:
 channelSort.m - Sort each sample by Resolved/Intermediate/Boosted
 CrystalBall2.m - function of double tailed Crystal Ball for HH fits
